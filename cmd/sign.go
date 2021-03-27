@@ -26,6 +26,7 @@ import (
 	"github.com/sigstore/sigstore/pkg/httpclient"
 	"github.com/sigstore/sigstore/pkg/keymgmt"
 	"github.com/sigstore/sigstore/pkg/oauthflow"
+	"github.com/sigstore/sigstore/pkg/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"net/http"
@@ -88,6 +89,16 @@ var signCmd = &cobra.Command{
 			panic("failed to parse certificate: " + err.Error())
 		}
 		fmt.Printf("Received signing Cerificate: %+v\n", cert.Subject)
+
+		mimetype, err := utils.GetFileType(viper.GetString("artifact"))
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		_, found := utils.FindString(utils.SupportedTypes, mimetype)
+		if !found {
+			fmt.Printf("File type %s currently not supported\n", mimetype)
+		}
 		},
 }
 
@@ -98,6 +109,8 @@ func init() {
 	// THIS IS NOT A SECRET - IT IS USED IN THE NATIVE/DESKTOP FLOW.
 	signCmd.PersistentFlags().String("oidc-client-secret", "CkkuDoCgE2D_CCRRMyF_UIhS", "client secret for application")
 	signCmd.PersistentFlags().StringP("output", "o", "-", "output file to write certificate chain to")
+	signCmd.PersistentFlags().StringP("artifact", "a", "", "artifact to sign")
+	signCmd.MarkPersistentFlagRequired("artifact")
 	if err := viper.BindPFlags(signCmd.PersistentFlags()); err != nil {
 		fmt.Println(err)
 	}
