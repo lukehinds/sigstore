@@ -110,7 +110,7 @@ func init() {
 	signCmd.PersistentFlags().String("oidc-client-secret", "CkkuDoCgE2D_CCRRMyF_UIhS", "client secret for application")
 	signCmd.PersistentFlags().StringP("output", "o", "-", "output file to write certificate chain to")
 	signCmd.PersistentFlags().StringP("artifact", "a", "", "artifact to sign")
-	signCmd.MarkPersistentFlagRequired("artifact")
+	signCmd.MarkPersistentFlagRequired("artifact") //nolint
 	if err := viper.BindPFlags(signCmd.PersistentFlags()); err != nil {
 		fmt.Println(err)
 	}
