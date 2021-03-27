@@ -95,7 +95,7 @@ var signCmd = &cobra.Command{
 			fmt.Println(err)
 		}
 
-		_, found := utils.FindString(utils.SupportedTypes, mimetype)
+		_, found := utils.FindString(utils.SupportedFileTypes, mimetype)
 		if !found {
 			fmt.Printf("File type %s currently not supported\n", mimetype)
 		}

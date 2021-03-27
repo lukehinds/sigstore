@@ -4,7 +4,7 @@ import (
 	"github.com/gabriel-vasile/mimetype"
 )
 
-var SupportedTypes = []string{
+var SupportedFileTypes = []string{
 	"text/plain; charset=utf-8",
 	"application/jar",
 	"application/x-bzip2",
